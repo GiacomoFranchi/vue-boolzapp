@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+    <!--FontAwesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!--CSS-->
+    <link rel="stylesheet" href="css/style.css">
+    <!--Vue-->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Boolzapp</title>
+</head>
+<body>
+  <div id="app">
+    <div class="barra-bg"></div>
+    <div class="main-screen">
+        <section class="side-bar">
+            <header class="header-user padding ">
+                <div class="photo">
+                    <img src="img/avatar_io.jpg" alt="user photo">
+                    <h2>Sofia</h2>
+                </div>
+                <div class="tools padding">
+                    <ul>
+                        <li><a href=""><i class="fa-solid fa-circle-notch mod"></i></a></li>
+                        <li><a href=""><i class="fa-solid fa-message mod"></i></a></li>
+                        <li><a href=""><i class="fa-solid fa-ellipsis-vertical mod"></i></a></i></li>
+                    </ul>
+                </div>
+            </header>
+            <section class="hero">
+                <div class="notifica padding-l">
+                    <i class="fa-solid fa-bell-slash mod circle"></i>
+                    <div class="tx-notifica padding-lft">
+                        <h2>Ricevi notifiche di nuovi messaggi</h2>
+                        <h3>Attiva notifiche desktop</h3>
+                    </div>
+                </div>
+                <div class="search-bar padding-s">
+                    <button class="src">
+                        <i class="fa-solid fa-magnifying-glass src"></i>
+                    </button>
+                <input type="text" class="search" placeholder="cerca o inizia una nuova chat">
+                </div>
+            </section>
+            <main class="side-chat">
+                <div  class="row-prew padding-l" v-for="(contact, index) in contacts" >
+                    <div  class="photo">
+                        <img src="img/avatar_1.jpg">
+                    </div>
+                    <div class="prew-chat" @click="show(index)">
+                        <h2 class="nome">{{ contact.name }}</h2>
+                        <div>
+                            <h3 class="prew-txt"></h3>
+                            <span class="ora"></span>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </section>
+        <section class="chat-open" v-for="(contact, indexA, message) in contacts" :class="indexA === aI ? '' : 'hide' ">
+            <header class="header-chat padding">
+                <div class="header-chat-sx">
+                    <div class="photo">
+                        <img src="img/avatar_1.jpg" alt="foto friend 1">
+                    </div>
+                    <div class="info-chat">
+                    <h2 class="nome">{{ contact.name }}</h2>
+                        <h3 class="prew-txt">asdfgg</h3>
+                    </div>
+                </div>
+                <div class="header-chat-dx" >
+                    <ul>
+                        <li><a href=""><i class="fa-solid fa-magnifying-glass mod"></i></a></li>
+                        <li><a href=""><i class="fa-solid fa-paperclip mod"></i></a></li>
+                        <li><a href=""><i class="fa-solid fa-ellipsis-vertical mod"></i></a></li>
+                    </ul>
+                </div>
+            </header>
+            <main class="chat padding-xl">
+                <div class="row-msg" v-for="(message, index) in contact.messages" :class="message.status == 'sent'? 'sent' : 'received'">
+                    <p>
+                        {{message.message}}
+                    </p>
+                    <span class="ora-msg">16:13</span>
+                    <i class="fa-solid fa-chevron-down chevron"></i>
+                    <div class="box-chevron">
+                        <button>Info messaggio</button>
+                        <button>Cancella messaggio</button>
+                    </div>
+                </div>
+            </main>
+            <footer class="input-chat padding-s">
+                <div class="emoji">
+                    <button><i class="fa-regular fa-face-smile size-btn"></i></button>
+                </div>
+                <div class="box-testo">
+                    <label for="input-text"></label>
+                    <input v-model.trim="newText" @keyup.enter="prendiDaInput(newText)" type="text" name="input-text" id="input-text" placeholder="Scrivi un messaggio">
+                </div>
+                <div class="vocale">
+                    <button><i class="fa-solid fa-microphone size-btn"></i></button>
+                </div>
+            </footer> 
+        </section>
+    </div>
+  </div> 
+  <!--JS-->
+  <script src="js/script.js"></script> 
+</body>
+</html>

@@ -49,7 +49,8 @@
             </section>
             <!--SIDE CHAT-->
             <main class="side-chat">
-                <div  class="row-prew padding-l" v-for="(contact, index) in contacts" :key="contact.name" >
+                <div  class="row-prew padding-l"
+                 v-for="(contact, index) in contacts" :key="contact.name">
                     <div  class="photo">
                         <img :src="`img/avatar${contact.avatar}.jpg`" :alt="`Avatar: ${contact.name}`">
                     </div>
@@ -64,19 +65,17 @@
             </main>
         </section>
         <!--CHAT OPEN-->
-        <section class="chat-open"
-         v-for="(contact, index) in contacts" 
-         :class="index === aI ? '' : 'hide' ">
+        <section class="chat-open" 
+         >
             <header class="header-chat padding">
                 <div class="header-chat-sx">
                     <div class="photo">
-                        <img :src="`img/avatar${contact.avatar}.jpg`" 
-                        alt="foto {{ contact.name }}">
+                        <img :src="`img/avatar${contacts[aI].avatar}.jpg`" 
+                        :alt="`Avatar: ${contacts.name}`">
                     </div>
                     <div class="info-chat">
-                    <h2 class="nome">{{ contact.name }}</h2>
-                        <h3 class="prew-txt">Ultimo accesso alle:
-                             {{contacts[index].messages[2]}} <!--qui--></h3>
+                    <h2 class="nome">{{ contacts[aI].name }}</h2>
+                        <h3 class="prew-txt">Ultimo accesso alle:</h3>
                     </div>
                 </div>
                 <div class="header-chat-dx" >
@@ -89,16 +88,16 @@
             </header>
             <main class="chat padding-xl">
                 <div class="row-msg"
-                 v-for="(message, index) in contact.messages"
-                 :class="message.status == 'sent'? 'sent' : 'received'">
+                v-for="(messageObj, index) in contacts[aI].messages" 
+                :class="messageObj.status === 'sent' ? 'sent' : 'received'">
                     <p>
-                        {{message.message}}
+                        {{messageObj.message}}
                     </p>
-                    <span class="ora-msg">{{message.date}}</span>
+                    <span class="ora-msg">{{messageObj.date}}</span>
                     <i class="fa-solid fa-chevron-down chevron"></i>
                     <div class="box-chevron">
                         <button>Info messaggio</button>
-                        <button>Cancella messaggio</button>
+                        <button @clicj="eliminaMsg(index)">Cancella messaggio</button>
                     </div>
                 </div>
             </main>
@@ -109,9 +108,11 @@
                 <!--INPUT-->
                 <div class="box-testo">
                     <label for="input-text"></label>
-                    <input v-model.trim="newMessages.message"
+                    <input 
                       type="text" name="input-text" id="input-text"
-                       placeholder="Scrivi un messaggio">
+                       placeholder="Scrivi un messaggio"
+                       v-model="text"
+                       @keyup.enter="prendiDaInput(aI)">
                 </div>
                 <div class="vocale">
                     <button><i class="fa-solid fa-microphone size-btn"></i></button>

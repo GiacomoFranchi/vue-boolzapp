@@ -166,7 +166,7 @@ const app = createApp ({
                 ],
                 }
             ],
-            aI: (0),  
+            aI: 2,  
             newMessages:{
                 date:"oggi",
                 message:"",
@@ -176,16 +176,13 @@ const app = createApp ({
     },
 
     metods:{
-        show(index){
-            this.aI == index
+        show(clickindex){
+            this.aI = clickindex
             console.log("ciao");
         },
-        prendiDaInput: function(newText){
-            if(newText !== ""){
-            this.newMessages.message = newText
-            newText === ""
-            this.contact.messages.push({...this.newMessages})
-            }
+        prendiDaInput: function( index){
+                console.log(newMessage, index);
+
         },
     }
 })

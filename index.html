@@ -47,30 +47,36 @@
                 <input type="text" class="search" placeholder="cerca o inizia una nuova chat">
                 </div>
             </section>
+            <!--SIDE CHAT-->
             <main class="side-chat">
-                <div  class="row-prew padding-l" v-for="(contact, index) in contacts" >
+                <div  class="row-prew padding-l" v-for="(contact, index) in contacts" :key="contact.name" >
                     <div  class="photo">
-                        <img src="img/avatar_1.jpg">
+                        <img :src="`img/avatar${contact.avatar}.jpg`" :alt="`Avatar: ${contact.name}`">
                     </div>
                     <div class="prew-chat" @click="show(index)">
                         <h2 class="nome">{{ contact.name }}</h2>
                         <div>
-                            <h3 class="prew-txt"></h3>
+                            <h3 class="prew-txt">Last MSG</h3>
                             <span class="ora"></span>
                         </div>
                     </div>
                 </div>
             </main>
         </section>
-        <section class="chat-open" v-for="(contact, indexA, message) in contacts" :class="indexA === aI ? '' : 'hide' ">
+        <!--CHAT OPEN-->
+        <section class="chat-open"
+         v-for="(contact, index) in contacts" 
+         :class="index === aI ? '' : 'hide' ">
             <header class="header-chat padding">
                 <div class="header-chat-sx">
                     <div class="photo">
-                        <img src="img/avatar_1.jpg" alt="foto friend 1">
+                        <img :src="`img/avatar${contact.avatar}.jpg`" 
+                        alt="foto {{ contact.name }}">
                     </div>
                     <div class="info-chat">
                     <h2 class="nome">{{ contact.name }}</h2>
-                        <h3 class="prew-txt">asdfgg</h3>
+                        <h3 class="prew-txt">Ultimo accesso alle:
+                             {{contacts[index].messages[2]}} <!--qui--></h3>
                     </div>
                 </div>
                 <div class="header-chat-dx" >
@@ -82,11 +88,13 @@
                 </div>
             </header>
             <main class="chat padding-xl">
-                <div class="row-msg" v-for="(message, index) in contact.messages" :class="message.status == 'sent'? 'sent' : 'received'">
+                <div class="row-msg"
+                 v-for="(message, index) in contact.messages"
+                 :class="message.status == 'sent'? 'sent' : 'received'">
                     <p>
                         {{message.message}}
                     </p>
-                    <span class="ora-msg">16:13</span>
+                    <span class="ora-msg">{{message.date}}</span>
                     <i class="fa-solid fa-chevron-down chevron"></i>
                     <div class="box-chevron">
                         <button>Info messaggio</button>
@@ -98,9 +106,12 @@
                 <div class="emoji">
                     <button><i class="fa-regular fa-face-smile size-btn"></i></button>
                 </div>
+                <!--INPUT-->
                 <div class="box-testo">
                     <label for="input-text"></label>
-                    <input v-model.trim="newText" @keyup.enter="prendiDaInput(newText)" type="text" name="input-text" id="input-text" placeholder="Scrivi un messaggio">
+                    <input v-model.trim="newMessages.message"
+                      type="text" name="input-text" id="input-text"
+                       placeholder="Scrivi un messaggio">
                 </div>
                 <div class="vocale">
                     <button><i class="fa-solid fa-microphone size-btn"></i></button>

@@ -1,4 +1,5 @@
 const { createApp } = Vue;
+const dt = luxon.DateTime;
 const app = createApp({
     data() {
         return {
@@ -168,13 +169,14 @@ const app = createApp({
             ],
             aI: 0,
             text:"",
+            srcUser:"",
             newMessages: {
-                date: "",
+                date: "dt.now('it')" ,
                 message: "",
                 status: "sent",
             },
             newMessagesAns: {
-                date: "",
+                date:"date()",
                 message: "",
                 status: "sent",
             }
@@ -189,23 +191,46 @@ const app = createApp({
         ansTimer: function()  {
             this.newMessagesAns.message = "OK";
             this.newMessagesAns.status = "received"
-            this.newMessagesAns.date = "oggi"
+
             this.contacts[this.aI].messages.push(this.newMessagesAns)
         },
         prendiDaInput(aI){
             this.newMessages.message = this.text;
             this.newMessages.status = "sent"
-            this.newMessages.date = "oggi"
+
             this.contacts[aI].messages.push({...this.newMessages})
             this.text= ""
             setTimeout(() => {
                 this.ansTimer()
             },2000)
         },
-        eliminaMsg(index){
-            console.log(ooo);
-            this.contact.messages[index].remove(this.messages[index])
-        }
+      // eliminaMsg(index, aI){
+       //     this.contact[index].message[index].splice(this.messages[index])
+       // },
+        cerca: function(index){
+            for(let i = 0; i < this.contacts.length - 1; i++){
+                if(this.contacts[i].name.includes(this.srcUser)){
+                    console.log("presente", this.contacts[i].name);
+                }else{
+                    console.log("assente", this.contacts[i].name);
+                }
+            }
+        },
+        toHourM(date){
+            const luxonDate = dt.fromFormat(date, "dd/MM/yyyy HH:mm:ss");
+            return luxonDate.toFormat("HH:mm");
+        },
+        toDayHourM(date){
+            const luxonDate = dt.fromFormat(date, "dd/MM/yyyy HH:mm:ss");
+            return luxonDate.toFormat("HH:mm  il  dd/MM");
+        },
     }
 })
 app.mount("#app")
+
+
+//function date(){
+    //const today = new Date()
+    //const f = new Intl.DateTimeFormat("it", {dateStyle: "full"})
+    //return 
+//}

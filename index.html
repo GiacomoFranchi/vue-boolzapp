@@ -44,7 +44,9 @@
                         <button class="src">
                             <i class="fa-solid fa-magnifying-glass src"></i>
                         </button>
-                        <input type="text" class="search" placeholder="cerca o inizia una nuova chat">
+                        <input v-model.trim="srcUser" type="text" class="search"
+                        placeholder="cerca o inizia una nuova chat"
+                        @keyup.enter="cerca(aI)">
                     </div>
                 </section>
                 <!--SIDE CHAT-->
@@ -57,8 +59,8 @@
                         </div>
                         <div class="prew-chat" >
                             <h2 class="nome">{{ contact.name }}</h2>
-                            <h3 class="prew-txt">Last MSG</h3>
-                            <span class="ora">22.3</span>
+                            <h3 class="prew-txt">{{contacts[index].messages[(contacts[index].messages.length - 1)].message}}</h3>
+                            <span class="ora">{{toDayHourM(contacts[index].messages[(contacts[index].messages.length - 1)].date)}}</span>
                         </div>
                     </div>
                 </main>
@@ -73,7 +75,7 @@
                         </div>
                         <div class="info-chat">
                             <h2 class="nome">{{ contacts[aI].name }}</h2>
-                            <h3 class="prew-txt">Ultimo accesso alle:</h3>
+                            <h3 class="prew-txt">Ultimo accesso alle: {{toDayHourM(contacts[aI].messages[(contacts[aI].messages.length - 1)].date)}}</h3>
                         </div>
                     </div>
                     <div class="header-chat-dx" >
@@ -89,11 +91,11 @@
                         v-for="(messageObj, index) in contacts[aI].messages" 
                         :class="messageObj.status === 'sent' ? 'sent' : 'received'">
                         <p>{{messageObj.message}}</p>
-                        <span class="ora-msg">{{messageObj.date}}</span>
+                        <span class="ora-msg">{{toHourM(messageObj.date)}}</span>
                         <i class="fa-solid fa-chevron-down chevron"></i>
                         <div class="box-chevron">
                             <button>Info messaggio</button>
-                            <button @clicj="eliminaMsg(index)">Cancella messaggio</button>
+                            <button @click="eliminaMsg(index, aI)">Cancella messaggio</button>
                         </div>
                     </div>
                 </main>
@@ -117,6 +119,8 @@
             </section>
         </div>
     </div> 
+    <!--LUXON-->
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
     <!--JS-->
     <script src="js/script.js"></script> 
 </body>
